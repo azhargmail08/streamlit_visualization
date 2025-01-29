@@ -1,4 +1,5 @@
 streamlit
+pylance
 matplotlib
 seaborn
 pandas
