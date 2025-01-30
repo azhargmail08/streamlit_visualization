@@ -1,6 +1,4 @@
 streamlit
-pylance
-matplotlib
-seaborn
+plotly
 pandas
 openpyxl
