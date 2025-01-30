@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+import plotly.express as px
 
 #title
 st.title("Data Visualization")
@@ -39,37 +38,33 @@ if uploaded_file is not None:
     st.write("Histogram")
     selected_numerical_columns = st.selectbox("Select Numeric Columns", numeric_columns)
     if selected_numerical_columns:
-        fig, ax = plt.subplots()
-        sns.histplot(df[selected_numerical_columns], kde=True, ax=ax)
-        st.pyplot(fig)
+        fig = px.histogram(df, x=selected_numerical_columns, title=f"Histogram of {selected_numerical_columns}")
+        st.plotly_chart(fig)
 
     #plot 2 barplot
     st.write("Barplot")
     selected_categorical_columns = st.selectbox("Select Categorical Columns", categorical_columns)
     if selected_categorical_columns:
-        fig, ax = plt.subplots()
-        df[selected_categorical_columns].value_counts().plot(kind='bar', ax=ax)
-        st.pyplot(fig)
+        fig = px.bar(df, x=selected_categorical_columns, title=f"Barplot of {selected_categorical_columns}")
+        st.plotly_chart(fig)
 
     #plot 3 scatterplot
     st.write("Scatterplot")
     x_axis = st.selectbox("Select X-axis", numeric_columns)
     y_axis = st.selectbox("Select Y-axis", numeric_columns)
+    color_column = st.selectbox("Select Color", categorical_columns)
     if x_axis and y_axis:
-        fig, ax = plt.subplots()
-        sns.scatterplot(x=x_axis, y=y_axis, data=df, ax=ax)
-        st.pyplot(fig)
+        fig = px.scatter(df, x=x_axis, y=y_axis, color=color_column ,title=f"Scatterplot of {x_axis} vs {y_axis}")
+        st.plotly_chart(fig)
     
     #plot 4 correlation
     st.write("Correlation Heat Map")
     if st.checkbox("Generate Correlation Heatmap"):
-        fig, ax = plt.subplots()
-        sns.heatmap(df[numeric_columns].corr(), annot=True, cmap='coolwarm', ax=ax)
-        st.pyplot(fig)
+        fig = px.imshow(df.corr())
+        st.plotly_chart(fig)
 
     #plot 5 boxplot
     st.write("Boxplot")
     if st.checkbox("Generate Boxplot"):
-        fig, ax = plt.subplots()
-        sns.boxplot(data=df, ax=ax)
-        st.pyplot(fig)
+        fig = px.box(df)
+        st.plotly_chart(fig)
